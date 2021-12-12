@@ -1,0 +1,5 @@
+.DS_Store
+.gitsecret/keys/random_seed
+!*.secret
+packages/strapi-config/.env
+packages/terraform/.env
