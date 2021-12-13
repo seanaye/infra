@@ -16,13 +16,19 @@ resource "digitalocean_droplet" "minecraft" {
 
   provisioner "remote-exec" {
     inline = [
-      "mkdir minecraft && cd minecraft",
       "export PATH=$PATH:/usr/bin",
-      "sudo apt update",
-      "sudo apt install -y wget",
-      "wget https://raw.githubusercontent.com/seanaye/minecraft-server/main/docker-compose.yml",
+      "apt update",
+      "apt install -y git-all",
+      "git clone https://github.com/seanaye/infra.git",
+      "cd infra/packages/minecraft",
       "docker-compose up -d"
     ]
   }
 }
 
+resource "digitalocean_record" "mc" {
+  domain = digitalocean_domain.default.name
+  type   = "A"
+  name   = "mc"
+  value  = digitalocean_droplet.minecraft.ipv4_address
+}

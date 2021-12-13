@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  mc:
+    # FTBA support is only available in multiarch image tag
+    image: itzg/minecraft-server:latest
+    ports:
+      # expose the Minecraft server port outside of container
+      - 25565:25565
+    environment:
+      # REQUIRED for all types
+      - EULA=TRUE
+      # Set server type (vs the default of vanilla)
+      - TYPE=VANILLA
+      # - VERSION=SNAPSHOT
+      # Use Pack ID from https://ftb.neptunepowered.org/pack/ftb-presents-direwolf20-1-12/
+      - MEMORY=3G
+    volumes:
+      # use a named, managed volume for data volume
+      - ./data:/data
+    restart: always

@@ -25,3 +25,10 @@ resource "digitalocean_droplet" "strapi" {
     ]
   }
 }
+
+resource "digitalocean_record" "content" {
+  domain = digitalocean_domain.default.name
+  type   = "A"
+  name   = "content"
+  value  = digitalocean_droplet.strapi.ipv4_address
+}

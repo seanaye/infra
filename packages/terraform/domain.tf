@@ -3,13 +3,6 @@ resource "digitalocean_domain" "default" {
   name = "seanaye.ca"
 }
 
-resource "digitalocean_record" "mc" {
-  domain = digitalocean_domain.default.name
-  type   = "A"
-  name   = "mc"
-  value  = digitalocean_droplet.minecraft.ipv4_address
-}
-
 resource "digitalocean_record" "improvmxtxt" {
   domain = digitalocean_domain.default.name
   type = "TXT"
