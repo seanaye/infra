@@ -17,8 +17,8 @@ resource "digitalocean_droplet" "strapi" {
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
-      "apt update",
-      "apt install -y git-all",
+      "apt-get update",
+      "apt-get install -y git-all",
       "git clone https://github.com/seanaye/infra.git",
       "cd infra/packages/strapi-config",
       "docker-compose up -d"
