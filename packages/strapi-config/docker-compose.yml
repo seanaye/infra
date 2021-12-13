@@ -52,6 +52,7 @@ services:
 
 networks:
   caddy:
+    external: true
 
 volumes:
   strapidata: {}
