@@ -5,7 +5,7 @@ services:
     image: strapi/strapi
     container_name: strapi
     restart: unless-stopped
-    env_file: .env
+    env_file: ./.env
     environment:
       DATABASE_CLIENT: mongo
       DATABASE_NAME: ${DATABASE_NAME}
@@ -18,7 +18,7 @@ services:
     networks:
       - caddy
     volumes:
-      - ./app:/srv/app
+      - ./app:./srv/app
     labels:
       caddy: content.seanaye.ca
       caddy.reverse_proxy: "{{upstreams 1337}}"
@@ -27,14 +27,14 @@ services:
     image: mongo
     container_name: mongodb
     restart: unless-stopped
-    env_file: .env
+    env_file: ./.env
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     networks:
       - caddy
     volumes:
-      - strapidata:/data/db
+      - strapidata:./data/db
 
   caddy:
     image: lucaslorentz/caddy-docker-proxy:ci-alpine
@@ -47,7 +47,7 @@ services:
       - caddy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - caddy_data:/caddy_data
+      - caddy_data:./caddy_data
     restart: unless-stopped
 
 networks:
