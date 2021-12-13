@@ -47,7 +47,7 @@ services:
       - caddy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - caddy_data:/data
+      - caddy_data:/caddy_data
     restart: unless-stopped
 
 networks:
