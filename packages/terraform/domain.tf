@@ -1,3 +1,11 @@
+resource "digitalocean_project" "default" {
+  name = "sean.aye2"
+  description = "default project for shared resources"
+  environment = "Development"
+  purpose = "Other"
+  resources = [digitalocean_domain.default.urn]
+}
+
 resource "digitalocean_domain" "default" {
   ip_address = null
   name = "seanaye.ca"

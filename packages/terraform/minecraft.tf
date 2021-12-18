@@ -32,3 +32,11 @@ resource "digitalocean_record" "mc" {
   name   = "mc"
   value  = digitalocean_droplet.minecraft.ipv4_address
 }
+
+
+resource "digitalocean_project" "minecraft" {
+  name = "Minecraft"
+  description = "minecraft ftb"
+  purpose = "Website or blog"
+  resources = [digitalocean_droplet.minecraft.urn]
+}

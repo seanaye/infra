@@ -32,3 +32,43 @@ resource "digitalocean_record" "content" {
   name   = "content"
   value  = digitalocean_droplet.strapi.ipv4_address
 }
+
+resource "digitalocean_spaces_bucket" "objects" {
+  name = "seanaye"
+  region = "nyc3"
+  acl = "public-read"
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET"]
+    allowed_origins = ["*"]
+    max_age_seconds = 3000
+  }
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["PUT", "POST", "DELETE"]
+    allowed_origins = ["https://content.seanaye.ca", "http://localhost:3000"]
+    max_age_seconds = 3000
+  }
+}
+
+resource "digitalocean_certificate" "cert" {
+  name = "cdn-cert"
+  type = "lets_encrypt"
+  domains = ["cdn.seanaye.ca"]
+}
+
+resource "digitalocean_cdn" "cdn" {
+  origin = digitalocean_spaces_bucket.objects.bucket_domain_name
+  custom_domain = "cdn.seanaye.ca"
+  certificate_name = digitalocean_certificate.cert.name
+} 
+
+resource "digitalocean_project" "personal" {
+  name = "Personal"
+  description = "personal content site and resources"
+  purpose = "Website or blog"
+  resources = [digitalocean_droplet.strapi.urn, digitalocean_spaces_bucket.objects.urn]
+}
+
